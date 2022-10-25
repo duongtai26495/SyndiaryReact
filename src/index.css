@@ -1,0 +1,136 @@
+*{
+    padding:0px;
+    margin: 0px;
+}
+:root{
+    --background-main:url(/src/images/bg-2.jpg);
+    --color-primary:#22577E;
+    --color-secondary:#FFABE1;
+    --color-gradient-1:#937DC2;
+    --color-gradient-2:#C689C6;
+}
+.authen-form{
+    max-width: 400px;
+}
+.img-spinner{
+    height: 30px;
+    margin-top: unset!important;
+}
+.btn-component{
+    height: 50px!important;
+    position: relative;
+    align-items: center;
+}
+.img-logo-authen{
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+.logo-header-mobile{
+    width: 30px;
+    margin:auto;
+}
+.header_nav_mobile div {
+    margin: auto;
+}
+.left-menu-bar{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1;
+    left:-150%;
+    transition: .3s;
+    display: flex;
+    flex-direction: row;
+    background-color: transparent;
+}
+.lef_menu_wrapper{
+    background-color:  rgba(255,255,255,0.4);
+    width: 100%;
+    height: 100%;
+}
+.show{
+    left:0;
+}
+.open{
+    rotate: 180deg;
+}
+i.fa-solid{
+    transition: .3s;
+}
+.btn-close{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    z-index: 999;
+    top:50%;
+    right: 10px;
+}
+.btn-close i{
+    scale: 1.5;
+}
+.menu-bar-content{
+    width: 30%;
+    background-color:white;
+    height: 100%;
+}
+.btn-component i{
+    margin-left: 10px;
+}
+.btn-component div {
+    align-items: center;
+}
+.menu-link{
+    padding:15px;
+    transition: .3s;
+}
+.menu-link:hover{
+    background-color: white;
+    color:black;
+}
+.diary-row{
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+    font-size: 16px;
+    overflow: hidden;
+    transition: .3s;
+    background: #ffffff7a;
+}
+.diary_content{
+    transition: .3s;
+    height: 20px;
+    
+    overflow: hidden;
+}
+.set_collapse{
+    height: max-content;
+    overflow: visible;
+    transition: .3s;
+}
+.diary_time{
+    font-size: 12px;
+}
+#root{
+    min-height: 100vh;
+    background-image: linear-gradient(130deg , white, var(--color-gradient-2),var(--color-gradient-1)) ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+.jodit-wysiwyg {
+    background-color: white;
+}
+button.jodit-ui-button{
+    background-color: var(--color-primary);
+}
+.bg-primary{
+    background-color: var(--color-gradient-1);
+}
+@media only screen and (max-width: 1024px) {
+    .menu-bar-content{
+        width: 100%;
+    }
+    .lef_menu_wrapper{
+        width: 0px;
+    }
+  }

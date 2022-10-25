@@ -1,0 +1,13 @@
+export const UPDATE_LOGIN_STATE = 'update_login_state'
+export const LOCAL_LOGIN_STATE = 'local_login_state'
+export const UPDATE_SHOW_MENU_BAR = 'update_show_menu_bar'
+export const RELOAD_DIARY_LIST = 'reload_diary_list'
+export const ADD_DIARY = 'add_diary'
+export const FIREBASE_UID = 'firebase_uid'
+export const GET_DIARIES = 'get_diaries'
+export const ACCESS_TOKEN = 'access_token'
+export const USERNAME_LOCAL = 'username_local'
+export const FULLNAME_LOCAL = 'fullname_local'
+
+export const SORT_CREATED_AT = 'create_at'
+export const SORT_LAST_EDITED = 'last_edited'
