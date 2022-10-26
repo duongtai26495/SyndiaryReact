@@ -8,24 +8,23 @@ const Header = () => {
     const [state, dispatch] = useStore()
     const { leftMenuBar } = state
 
-    const toggleShowMenu = () =>{
+    const toggleShowMenu = () => {
         dispatch(switchMenuBarShow(!leftMenuBar))
     }
 
     return (
-        <div className='bg-primary '>
-            <nav className='header_nav_mobile container m-auto w-full md:w-1/3 flex flex-row p-5  text-white'>
-                <div className='w-1/3 text-start'>
-                    <button onClick={toggleShowMenu}>
-                        {leftMenuBar ? <i className="fa-solid fa-x"></i> : <i className="fa-solid fa-bars m-auto "></i>}
-                        </button>
-                </div>
-                <div className='w-1/3 text-center'>
+        <div className='bg-white text-black '>
+            <nav className='header_nav_mobile container m-auto w-full md:w-1/4 flex flex-row p-5  '>
+                <div className='w-1/2 text-start'>
                     <Link className='' to="/"><img alt='' src={logo} className='logo-header-mobile' /></Link>
                 </div>
-                <div className='w-1/3 text-end'>
-                    <Link className='m-auto' to="/add"><i className="fa-solid fa-file-circle-plus"></i></Link>
+                <div className='w-1/2 text-end'>
+                    <button onClick={toggleShowMenu}>
+                        {leftMenuBar ? <i className="fa-solid fa-x"></i> : <i className="fa-solid fa-bars m-auto "></i>}
+                    </button>
                 </div>
+
+               
             </nav>
         </div>
 

@@ -1,9 +1,15 @@
 import axios from "axios"
-import { USERNAME_LOCAL, FULLNAME_LOCAL } from "../store/constants"
+import {
+  USERNAME_LOCAL,
+  FULLNAME_LOCAL,
+  EMAIL_LOCAL,
+  GENDER_LOCAL,
+  PROFILE_PHOTO_LOCAL
+} from "../store/constants"
 import { ACCESS_TOKEN } from "../store/constants"
 
-const HOST_URL = 'https://new-synote.herokuapp.com/'
-// const HOST_URL = 'http://192.168.1.10:8080/'
+// const HOST_URL = 'https://new-synote.herokuapp.com/'
+const HOST_URL = 'http://192.168.1.14:8080/'
 
 
 const loginWithUsernamePassword = async User => {
@@ -48,7 +54,7 @@ const getAllDiary = async () => {
     }
   };
 
- return await axios(config)
+  return await axios(config)
     .then(function (response) {
       let result = response.data
       let diaries = result.data
@@ -60,15 +66,15 @@ const getAllDiary = async () => {
 
 }
 
-const addNewDiary = async diary =>{
+const addNewDiary = async diary => {
   let url = HOST_URL + "diary/create"
   let token = "Bearer " + localStorage.getItem(ACCESS_TOKEN)
   let content = diary.content
   let display = diary.display
 
   var data = JSON.stringify({
-    "content":content,
-    "display":display
+    "content": content,
+    "display": display
   });
 
   var config = {
@@ -82,14 +88,14 @@ const addNewDiary = async diary =>{
   };
 
   return await axios(config)
-  .then(function (response) {
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+    .then(function (response) {
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
 
-const registerUser = async User =>{
+const registerUser = async User => {
 
   let url = HOST_URL + "user/register"
   let fullname = User.fullname
@@ -98,15 +104,15 @@ const registerUser = async User =>{
   let email = User.email
 
   var data = JSON.stringify({
-    "full_name":fullname,
-    "username":username,
-    "password":password,
-    "email":email
+    "full_name": fullname,
+    "username": username,
+    "password": password,
+    "email": email
   })
   var config = {
     method: 'POST',
     url,
-    headers: { 
+    headers: {
       'Content-Type': 'application/json'
     },
     data
@@ -125,113 +131,117 @@ const registerUser = async User =>{
 
 }
 
-const getDiary = async id =>{
+const getDiary = async id => {
   let username = localStorage.getItem(USERNAME_LOCAL)
-  let url = HOST_URL + "diary/"+username+"/"+id
+  let url = HOST_URL + "diary/" + username + "/" + id
   let token = localStorage.getItem(ACCESS_TOKEN)
 
-
-var config = {
-  method: 'GET',
-  url,
-  headers: { 
-    'Authorization': 'Bearer '+token
-  }
-};
-
-return await axios(config)
-.then(function (response) {
-    const data =response.data
-    let diary = data.data
-    return diary
-})
-.catch(function (error) {
-  console.log(error);
-});
-
-
-
-}
-
-const getUserInfoLogin = async (username,token) => {
-
-  let url = HOST_URL + "user/profile/"+username
 
   var config = {
     method: 'GET',
     url,
-    headers: { 
-      'Authorization': 'Bearer '+token
+    headers: {
+      'Authorization': 'Bearer ' + token
     }
   };
-  
- return await axios(config)
-  .then(function (response) {
-    let result =  response.data.data
-    let status = result.status
-    
-    localStorage.setItem(USERNAME_LOCAL, result.username)
-    localStorage.setItem(FULLNAME_LOCAL, result.full_name)
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
+
+  return await axios(config)
+    .then(function (response) {
+      const data = response.data
+      let diary = data.data
+      return diary
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+
+
+}
+
+const getUserInfoLogin = async (username, token) => {
+
+  let url = HOST_URL + "user/profile/" + username
+
+  var config = {
+    method: 'GET',
+    url,
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  };
+
+  return await axios(config)
+    .then(function (response) {
+      let result = response.data.data
+      let status = result.status
+
+
+      localStorage.setItem(USERNAME_LOCAL, result.username)
+      localStorage.setItem(FULLNAME_LOCAL, result.full_name)
+      localStorage.setItem(EMAIL_LOCAL, result.email)
+      localStorage.setItem(GENDER_LOCAL, result.gender)
+      localStorage.setItem(PROFILE_PHOTO_LOCAL, result.profile_image)
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 }
 
 const updateDiary = async Diary => {
   let id = Diary.id
-  let url = HOST_URL + "diary/edit/"+id
-  let token = 'Bearer '+localStorage.getItem(ACCESS_TOKEN)
+  let url = HOST_URL + "diary/edit/" + id
+  let token = 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
   let content = Diary.content
   var data = JSON.stringify({
     "content": content,
     "display": true
   });
-  
+
   var config = {
     method: 'PUT',
     url,
-    headers: { 
+    headers: {
       'Authorization': token,
       'Content-Type': 'application/json'
     },
     data,
   };
-  
- return await axios(config)
-  .then(function (response) {
-    let result = response.data;
-    let status = result.status;
-    return status
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-  
+
+  return await axios(config)
+    .then(function (response) {
+      let result = response.data;
+      let status = result.status;
+      return status
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
 }
 
-const deleteDiary = async id =>{
-  let url = HOST_URL + "diary/delete/"+id
-  let token = 'Bearer '+localStorage.getItem(ACCESS_TOKEN)
+const deleteDiary = async id => {
+  let url = HOST_URL + "diary/delete/" + id
+  let token = 'Bearer ' + localStorage.getItem(ACCESS_TOKEN)
 
 
-var config = {
-  method: 'DELETE',
-  url,
-  headers: { 
-    'Authorization': token
-  }
-};
+  var config = {
+    method: 'DELETE',
+    url,
+    headers: {
+      'Authorization': token
+    }
+  };
 
-return await axios(config)
-.then(function (response) {
-  let result = response.data
-  let status = result.status
-  return status
-})
-.catch(function (error) {
-  console.log(error);
-});
+  return await axios(config)
+    .then(function (response) {
+      let result = response.data
+      let status = result.status
+      return status
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 
 }
 
@@ -240,20 +250,20 @@ const pingServer = async () => {
   var config = {
     method: 'GET',
     url,
-    headers: { }
+    headers: {}
   };
-  
+
   return await axios(config)
-  .then(function (response) {
-    let result = response.data
-    console.log(result.msg)
-    let status = result.status
-    return status
-  })
-  .catch(function (error) {
-    console.log(error);
-  });
-  
+    .then(function (response) {
+      let result = response.data
+      console.log(result.msg)
+      let status = result.status
+      return status
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
 }
 export {
   loginWithUsernamePassword,

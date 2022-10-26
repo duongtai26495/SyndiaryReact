@@ -1,9 +1,15 @@
-import { ADD_DIARY, GET_DIARIES, SORT_LAST_EDITED, UPDATE_LOGIN_STATE, UPDATE_SHOW_MENU_BAR } from "./constants";
+import { 
+    GET_DIARIES, 
+    SORT_DIARY,
+    UPDATE_LOGIN_STATE, 
+    UPDATE_SHOW_MENU_BAR, 
+    SORT_LAST_EDITED_DESC} from "./constants";
+    
 const initState = {
     userLoginState: false,
     leftMenuBar: false,
     diaries:[],
-    sort: SORT_LAST_EDITED
+    sort: SORT_LAST_EDITED_DESC
 }
 
 
@@ -11,23 +17,20 @@ function reducer(state, action) {
     switch (action.type) {
         case UPDATE_LOGIN_STATE:
             return {
-                ...state,
                 userLoginState: action.payload
             }
         case UPDATE_SHOW_MENU_BAR:
             return {
-                ...state,
                 leftMenuBar: action.payload
             }
         case GET_DIARIES:
             return {
-                ...state,
+                ...state.diaries,
                 diaries: [...state.diaries,action.payload]
             }
-        case ADD_DIARY:
+        case SORT_DIARY:
             return {
-                ...state,
-                diaries: [...state.diaries, action.payload]
+                sort: action.payload
             }
         default:
             throw new Error('Sai action')

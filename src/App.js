@@ -25,7 +25,7 @@ const App = () => {
       return (
         <div className='container-fluid'>
           <Header />
-          <div className='w-full md:w-1/3 m-auto'>
+          <div className='w-full md:w-1/4 m-auto'>
             <Outlet />
           </div>
         </div>

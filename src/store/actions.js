@@ -1,4 +1,4 @@
-import { ADD_DIARY, GET_DIARIES, UPDATE_LOGIN_STATE, UPDATE_SHOW_MENU_BAR } from "./constants";
+import { ADD_DIARY, GET_DIARIES, SORT_DIARY, UPDATE_LOGIN_STATE, UPDATE_SHOW_MENU_BAR } from "./constants";
 
 export const updateLoginState = payload => ({
     type:UPDATE_LOGIN_STATE,
@@ -17,5 +17,10 @@ export const getDiariesList = payload => ({
 
 export const addMoreDiary = payload => ({
     type:ADD_DIARY,
+    payload
+})
+
+export const changeSort = payload => ({
+    type:SORT_DIARY,
     payload
 })
