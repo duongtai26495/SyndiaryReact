@@ -13,55 +13,49 @@ const Home = () => {
   const { userLoginState, sort } = state
   const [listDiaries, setDiaries] = useState([])
 
-  const [sorting, setSort] = useState(sort)
 
-  const updateSort = (sort_select, list) => {
+  const updateSort = list => {
     var newList = []
-    setSort(sort_select)
-    switch (sort_select) {
-    
+    switch (sort) {
+
+      case SORT_LAST_EDITED_DESC:
+        newList = list.sort((a, b) => { return a.last_edited.localeCompare(b.last_edited) }).reverse()
+        break
       case SORT_LAST_EDITED_ASC:
-        newList = list.sort((a, b) => { return a.last_edited - b.last_edited })
-        dispatch(changeSort(SORT_LAST_EDITED_ASC))
+        newList = list.sort((a, b) => { return a.last_edited.localeCompare(b.last_edited) })
         break
       case SORT_CREATED_ASC:
-        newList = list.sort((a, b) => { return a.created_at - b.created_at })
-        dispatch(changeSort(SORT_CREATED_ASC))
+        newList = list.sort((a, b) => { return a.created_at.localeCompare(b.created_at) })
         break
       case SORT_CREATED_DESC:
-        newList = list.sort((a, b) => { return a.created_at - b.created_at }).reverse()
-        dispatch(changeSort(SORT_CREATED_DESC))
+        newList = list.sort((a, b) => {return a.created_at.localeCompare(b.created_at)}).reverse()
         break
       default:
-        newList = list.sort((a, b) => { return a.last_edited - b.last_edited }).reverse()
-        dispatch(changeSort(SORT_LAST_EDITED_DESC))
+        newList = list.sort((a, b) => { return a.last_edited.localeCompare(b.last_edited) }).reverse()
         break
-
     }
 
-    list.forEach((e) => {
-      console.log(e)
-    })
+    setDiaries([])
     setDiaries(newList)
+    return newList
   }
 
-
-
   useEffect(() => {
-      getData()
-  }, [userLoginState])
+    getData()
+  }, [sort])
 
   const getData = async () => {
     var list = await getAllDiary()
-    setDiaries(list)
-    // setDiaries(updateSort(sort,list))
+    setDiaries(updateSort(list))
   }
 
   const TopComponent = () => {
     return (
       <div className='w-full p-2 mt-2 rounded-md bg-opacity-70 flex flex-row bg-white'>
         <div className='w-1/2 text-start'>
-          <select className='sort_diary' value={sorting} onChange={(e) => updateSort(e.target.value, listDiaries)}>
+          <select className='sort_diary' value={sort} onChange={(e) => {
+            dispatch(changeSort(e.target.value))
+          }}>
             <option value={SORT_LAST_EDITED_DESC}>LAST EDITED DESC</option>
             <option value={SORT_LAST_EDITED_ASC}>LAST EDITED ASC</option>
             <option value={SORT_CREATED_ASC}>CREATED AT ASC</option>

@@ -17,10 +17,12 @@ function reducer(state, action) {
     switch (action.type) {
         case UPDATE_LOGIN_STATE:
             return {
+                ...state.userLoginState,
                 userLoginState: action.payload
             }
         case UPDATE_SHOW_MENU_BAR:
             return {
+                ...state.leftMenuBar,
                 leftMenuBar: action.payload
             }
         case GET_DIARIES:
@@ -30,6 +32,7 @@ function reducer(state, action) {
             }
         case SORT_DIARY:
             return {
+                ...state.diaries,
                 sort: action.payload
             }
         default:

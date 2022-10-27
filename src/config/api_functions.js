@@ -8,8 +8,8 @@ import {
 } from "../store/constants"
 import { ACCESS_TOKEN } from "../store/constants"
 
-// const HOST_URL = 'https://new-synote.herokuapp.com/'
-const HOST_URL = 'http://192.168.1.14:8080/'
+const HOST_URL = 'https://new-synote.herokuapp.com/'
+// const HOST_URL = 'http://127.0.0.1:8080/'
 
 
 const loginWithUsernamePassword = async User => {
