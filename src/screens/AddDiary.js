@@ -20,7 +20,6 @@ const AddDiary = () => {
           "content":content,
           "display":true
         }
-        console.log(content)
         await addNewDiary(diary)
         dispatch(updateLoginState(!userLoginState))
         navigate("/")
