@@ -9,8 +9,8 @@ import {
   USERNAME_LOCAL
 } from "../store/constants"
 
-// const HOST_URL = 'https://new-synote.herokuapp.com/'
-const HOST_URL = 'http://192.168.1.11:8080/'
+const HOST_URL = 'https://new-synote.herokuapp.com/'
+// const HOST_URL = 'http://192.168.1.11:8080/'
 
 
 const loginWithUsernamePassword = async User => {
