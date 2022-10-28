@@ -5,21 +5,24 @@ import { Outlet} from "react-router-dom";
 import { ACCESS_TOKEN} from './store/constants';
 import Header from './components/Header';
 import LeftMenuBar from './components/LeftMenuBar';
-import { pingServer } from './config/api_functions'
+import { getUserInfoLogin, pingServer } from './config/api_functions'
 const App = () => {
-  const [state] = useStore()
-  const { userLoginState } = state
+  const [state, dispatch] = useStore()
+  const { userLoginState, updateUserInfo } = state
 
   useEffect(() => {
     DisplayComponent()
     wakeUpServer()
-  }, [userLoginState])
+    getInfo()
+  }, [userLoginState, updateUserInfo])
 
   
   const wakeUpServer = async () =>{
     await pingServer()
   }
-  
+  const getInfo = async () => {
+    await getUserInfoLogin()
+}
   const DisplayComponent = () => {
     if (localStorage.getItem(ACCESS_TOKEN) != null) {
       return (

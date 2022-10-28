@@ -60,7 +60,13 @@ const Login = () => {
     return (
         <div className='flex flex-col'>
             <h3 className='text-3xl font-bold'>Welcome back</h3>
-            <input className='w-full mt-3 rounded-md p-2 bg-slate-200' type={'text'} name='username' placeholder='Username' value={uName} onChange={(e) => setUname(e.target.value)} />
+            <input 
+            className='w-full mt-3 rounded-md p-2 bg-slate-200' 
+            type={'text'} 
+            name='username' 
+            placeholder='Username'
+            value={uName} 
+            onChange={(e) => setUname(e.target.value)} />
             <input className='w-full mt-3 rounded-md p-2 bg-slate-200' type={'password'}  name='password' placeholder='Password' value={uPw} onChange={(e) => setUpw(e.target.value)} />
             {errorMsg === '' ? "" : <span className='p-2 text-red-500'>{errorMsg}</span>}
             <MyButton color={' bg-cyan-700 text-white'} icon={<i className="fa-solid fa-arrow-right"></i>} onClick={LoginHandle} isLoading={isLoading} title={'Login'} />

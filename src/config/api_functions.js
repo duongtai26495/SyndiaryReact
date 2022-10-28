@@ -1,22 +1,24 @@
 import axios from "axios"
 import {
-  USERNAME_LOCAL,
-  FULLNAME_LOCAL,
+  ACCESS_TOKEN,
   EMAIL_LOCAL,
+  FULLNAME_LOCAL,
   GENDER_LOCAL,
-  PROFILE_PHOTO_LOCAL
+  LOCAL_LOGIN_STATE,
+  PROFILE_PHOTO_LOCAL,
+  USERNAME_LOCAL
 } from "../store/constants"
-import { ACCESS_TOKEN } from "../store/constants"
 
-const HOST_URL = 'https://new-synote.herokuapp.com/'
-// const HOST_URL = 'http://127.0.0.1:8080/'
+// const HOST_URL = 'https://new-synote.herokuapp.com/'
+const HOST_URL = 'http://192.168.1.11:8080/'
 
 
 const loginWithUsernamePassword = async User => {
 
-  let url = HOST_URL + "auth/login"
-  let username = User.username
-  let password = User.password
+  var url = HOST_URL + "auth/login"
+  var username = User.username
+  var password = User.password
+  localStorage.setItem(USERNAME_LOCAL,username)
   var data = new FormData();
   data.append('username', username);
   data.append('password', password);
@@ -32,8 +34,12 @@ const loginWithUsernamePassword = async User => {
       let result = response.data;
       let token = result.access_token;
       localStorage.setItem(ACCESS_TOKEN, token)
-      getUserInfoLogin(username, token)
+      if(localStorage.getItem(ACCESS_TOKEN) !== null){
+        getUserInfoLogin()
       return token
+      }else{
+        return null
+      }
     })
     .catch(function (error) {
       console.log(error);
@@ -158,9 +164,18 @@ const getDiary = async id => {
 
 
 }
-
-const getUserInfoLogin = async (username, token) => {
-
+const genderValue = (gender) => {
+  switch (gender) {
+      case '0': return "Not update"
+      case '1': return "Male"
+      case '2': return "Female"
+      case '3': return "Unknown"
+      default: return "Not update"
+  }
+}
+const getUserInfoLogin = async () => {
+  var username = localStorage.getItem(USERNAME_LOCAL)
+  var token  = localStorage.getItem(ACCESS_TOKEN)
   let url = HOST_URL + "user/profile/" + username
 
   var config = {
@@ -173,19 +188,22 @@ const getUserInfoLogin = async (username, token) => {
 
   return await axios(config)
     .then(function (response) {
-      let result = response.data.data
+      let result = response.data
       let status = result.status
 
-
-      localStorage.setItem(USERNAME_LOCAL, result.username)
-      localStorage.setItem(FULLNAME_LOCAL, result.full_name)
-      localStorage.setItem(EMAIL_LOCAL, result.email)
-      localStorage.setItem(GENDER_LOCAL, result.gender)
-      localStorage.setItem(PROFILE_PHOTO_LOCAL, result.profile_image)
+      localStorage.setItem(FULLNAME_LOCAL, result.data.full_name)
+      localStorage.setItem(EMAIL_LOCAL, result.data.email)
+      localStorage.setItem(GENDER_LOCAL, result.data.gender)
+      localStorage.setItem(PROFILE_PHOTO_LOCAL, result.data.profile_image)
+  
+      return status
+  
+      
     })
     .catch(function (error) {
       console.log(error);
     });
+
 }
 
 const updateDiary = async Diary => {
@@ -265,6 +283,71 @@ const pingServer = async () => {
     });
 
 }
+const updateProfilePhoto = async url => {
+  var token = 'Bearer '+localStorage.getItem(ACCESS_TOKEN)
+  var data = {
+    "profile_image": url
+  };
+  
+  var config = {
+    method: 'PUT',
+    url: HOST_URL+'user/edit/'+localStorage.getItem(USERNAME_LOCAL),
+    headers: { 
+      'Authorization': token,
+      'Content-Type': 'application/json'
+    },
+    data
+  };
+  
+  return await axios(config)
+  .then(function (response) {
+    let result = response.data
+    let status = result.status
+    return status
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
+const logout = () => {
+  localStorage.removeItem(ACCESS_TOKEN)
+  localStorage.removeItem(LOCAL_LOGIN_STATE)
+  localStorage.removeItem(USERNAME_LOCAL)
+  localStorage.removeItem(FULLNAME_LOCAL)
+  localStorage.removeItem(GENDER_LOCAL)
+  localStorage.removeItem(PROFILE_PHOTO_LOCAL)
+  localStorage.removeItem(EMAIL_LOCAL)
+}
+
+const updateUserInforAPI = async user =>{
+  var token = 'Bearer '+ localStorage.getItem(ACCESS_TOKEN)
+  var username = localStorage.getItem(USERNAME_LOCAL)
+  var url = HOST_URL + 'user/edit/'+username
+  var data = JSON.stringify({
+    "full_name": user.full_name,
+    "gender": Number(user.gender)
+  });
+  
+  var config = {
+    method: 'PUT',
+    url,
+    headers: { 
+      'Authorization': token,
+      'Content-Type': 'application/json'
+    },
+    data
+  };
+  
+ return await axios(config)
+  .then(function (response) {
+    const result = response.data
+    const status = result.status
+    return status
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+}
 export {
   loginWithUsernamePassword,
   registerUser,
@@ -273,5 +356,10 @@ export {
   getDiary,
   updateDiary,
   deleteDiary,
-  pingServer
+  pingServer,
+  logout,
+  updateProfilePhoto,
+  getUserInfoLogin,
+  genderValue,
+  updateUserInforAPI
 }

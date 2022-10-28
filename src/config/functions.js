@@ -6,7 +6,7 @@ import {
     signInWithEmailAndPassword,
     signOut
 } from "firebase/auth";
-import { FIREBASE_UID } from "../store/constants";
+import { FIREBASE_UID, PROFILE_PHOTO_LOCAL, USERNAME_LOCAL } from "../store/constants";
 import { app, database } from "./firebase";
 import {
     getDatabase,
@@ -18,6 +18,8 @@ import {
     child
 } from "firebase/database";
 import { v4 } from "uuid";
+import { getStorage, ref as storageRef, uploadBytes, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { updateProfilePhoto } from "./api_functions";
 
 const registerWithEmailAndPassword = async (User) => {
     var user = null;
@@ -124,19 +126,43 @@ const getDiaries = () => {
         snapshot.forEach(childSnapshot => {
             let key = childSnapshot.key;
             let data = childSnapshot.val();
-            listDiaries.push({ 
-                "key": key, 
+            listDiaries.push({
+                "key": key,
                 "data": data
             })
         });
-        
+
         listDiaries.forEach((diary) => {
             console.log(diary)
         })
     })
     return Diaries
 }
+const uploadImageToFirebase = (file) => {
+    const storage = getStorage(app);
+    const storageRefer = storageRef(storage, 'UserProfile/' + localStorage.getItem(USERNAME_LOCAL));
+    const uploadTask = uploadBytesResumable(storageRefer, file);
+    uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+            const percent = Math.round(
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            );
+            console.log(percent)
 
+        },
+        (err) => console.log(err),
+        ()=>{
+            getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+                localStorage.setItem(PROFILE_PHOTO_LOCAL, url)
+                return localStorage.getItem(PROFILE_PHOTO_LOCAL)
+    
+            })
+        }
+        
+    );
+
+}
 export {
     registerWithEmailAndPassword,
     logInWithEmailAndPassword,

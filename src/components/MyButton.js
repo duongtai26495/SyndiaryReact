@@ -17,7 +17,7 @@ const MyButton = ({isLoading, onClick = () =>{}, title, icon, color}) => {
             </div>
         )
     }
-    var style = color+' btn btn-component w-full rounded-md p-2 mt-3 flex flex-col justify-center'
+    var style = color+' btn btn-component w-full rounded-md p-2 mt-3 flex flex-col justify-center shadow-box'
   return (
     <button className={style} onClick={onClick}>
         {isLoading ? <LoadingSpinner/> : <ContentBtn />}
