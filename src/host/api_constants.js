@@ -1,0 +1,1 @@
+export const HOST_URL = 'https://new-synote.herokuapp.com/'
