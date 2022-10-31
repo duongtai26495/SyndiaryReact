@@ -14,7 +14,7 @@ const Header = () => {
 
     return (
         <div className='bg-white text-black '>
-            <nav className='header_nav_mobile container m-auto w-full md:w-1/4 flex flex-row p-5  '>
+            <nav className='header_nav_mobile container m-auto w-full lg:w-1/4 xl:w-1/5 flex flex-row p-5  '>
                 <div className='w-1/2 text-start'>
                     <Link className='' to="/"><img alt='' src={logo} className='logo-header-mobile' /></Link>
                 </div>

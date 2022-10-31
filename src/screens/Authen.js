@@ -6,7 +6,7 @@ function Authen() {
 
     const SwitchAuthen = () => setAuthenMode(!authenMode)
     return (
-        <div className='authen-form pt-20 form m-auto w-full md:w-1/3'>
+        <div className='authen-form pt-20 form m-auto p-2 w-full md:w-1/2 xl:w-1/3'>
             <img alt='' src={logo} className='img-logo-authen' />
             {authenMode ?
                 <Login />

@@ -21,14 +21,16 @@ const App = () => {
     await pingServer()
   }
   const getInfo = async () => {
-    await getUserInfoLogin()
+    if(localStorage.ACCESS_TOKEN){
+      await getUserInfoLogin()
+    }
 }
   const DisplayComponent = () => {
     if (localStorage.getItem(ACCESS_TOKEN) != null) {
       return (
         <div className='container-fluid'>
           <Header />
-          <div className='w-full md:w-1/4 m-auto'>
+          <div className='w-full lg:w-1/4 xl:w-1/5 m-auto'>
             <Outlet />
           </div>
         </div>
